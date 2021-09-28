@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            border: 1px solid red;
+            height: 50px;
+            width: 50px;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div id="move">
+        hello
+    </div>
+</body>
+
+<script>
+
+    var ele = document.getElementById('move')
+
+    function move(el,time){
+        var left = 0;
+        var param =1 ;
+        var timeid ;
+        function add(){
+            left += param*1
+            if(left>500){
+                param = -1 ;
+            }
+            else if(left <0){
+                left =0 ;
+                param =1
+            }
+        };
+        function update(){
+            el.style.left = left+'px'
+        };
+
+        function loop(){
+            add();
+        
+            update()
+        };
+         timeid = setInterval(() => {
+            loop()
+        }, 1000/time);
+    }
+
+    move(ele,60)
+</script>
+</html>

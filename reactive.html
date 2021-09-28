@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="show">
+        obj.value
+    </div>
+    <button id="add">增加</button>
+</body>
+<script>
+    let divElement = document.getElementById('show')
+    let buttonElement = document.getElementById('add')
+    const obj = {value:1}
+
+    const proxy = new Proxy(obj,{
+        
+        get(target,prop,receive){
+            console.log(`获取${prop}`)
+            return Reflect.get(...arguments)
+        },
+        set(target,prop,value,receive){
+            console.log(`设置${prop}为${value}`)
+            Reflect.set(...arguments)
+            render()
+        }
+    });
+
+    function render(){
+        divElement.innerText = proxy.value
+    }
+
+    buttonElement.onclick = function(){
+        proxy.value = proxy.value + 1
+    }
+
+</script>
+</html>

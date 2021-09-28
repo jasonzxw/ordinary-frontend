@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .show button{
+            display: none;
+        }
+        .show:hover{
+            background-color: cadetblue;
+        }
+        .show:hover button{
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <div class="show">
+        <label>11111</label> <button>删除</button>
+    </div>
+    <div style="display: grid;grid-template-columns:100px auto 100px">
+        <div style="background-color: aqua;"> 1</div>
+        <div style="background-color:beige;"> 2</div>
+        <div style="background-color: aqua;"> 3</div>
+    </div>
+    
+    <div style="overflow: hidden;">
+        <div style="float: left; width: 100px;background-color: aqua;">one</div>
+        <div style="background-color: aqua;margin-left:100px ;">two</div>
+    </div>
+
+    <div style="background-color: blue;position: relative; width: 20%;left: -100px;">
+        1
+    </div>
+</body>
+</html>

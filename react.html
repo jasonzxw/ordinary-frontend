@@ -1,0 +1,43 @@
+<html>
+    <head></head>
+    <body>
+        <div id="para1" onclick="add()">
+            obj.n
+        </div>
+        <div id = "para2"> 
+
+        </div>
+    </body>
+
+    <script>
+        var obj ={
+            n : 0,
+            get next(){
+                return this.n
+            },
+            set next(val){
+                this.n = val
+                render(this.n)
+
+            }
+        }
+
+        
+        window.onload = function(){
+            document.getElementById("para1").innerText = 0
+            document.getElementById("para2").innerText = 0
+        }
+
+        //相当于react的setState 触发渲染事件
+        function add(){
+            obj.next = obj.n+1
+        }
+        //响应式反应值的变化
+        function render(val){
+
+            document.getElementById("para1").innerText = val
+            document.getElementById("para2").innerText = val
+        }
+        
+    </script>
+</html>

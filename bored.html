@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+        div{
+            border: 1px solid red;
+            height: 100px;
+            width : 100px;
+            text-align: center
+        }
+    </style>
+</head>
+<body>
+   <div id="ig"></div>
+   <div id="rng"></div>
+   <button id="start">开始</button>
+   <button id="cut">截图</button>
+</body>
+<script>
+    var number,timerId;
+    var eleIg = document.getElementById('ig');
+    var eleRng = document.getElementById('rng');
+    var eleCut = document.getElementById('cut');
+    var eleStart = document.getElementById('start');
+    function randomNumber(max){
+        number =  Math.floor(Math.random()*(max+1))
+    }
+    
+    function render(){
+        randomNumber(2);
+        if(number===1){
+            eleIg.innerText = number ;
+            eleRng.innerText = 3- number ;
+        }else{
+            eleIg.innerText = number ;
+            eleRng.innerText = 2- number ;
+        }
+
+    }
+
+    window.onload = function(){
+        timerId = setInterval(() => {
+            render()
+        }, 1000/100);
+    }
+
+    eleStart.onclick = function(){
+        timerId = setInterval(() => {
+            render()
+        }, 1000/60);
+    }
+
+    eleCut.onclick = function(){
+        clearInterval(timerId)
+    }
+
+</script>
+</html>

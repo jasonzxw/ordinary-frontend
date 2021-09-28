@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div>
+        <input v-model="a" />
+        <p v-on:click="click">{{a}}</p>
+        <p>{{b}}</p>
+    </div>
+    <div id="1" my="my1" your="your">
+
+    </div>
+    <script>
+
+        var ele = document.getElementById("1");
+
+        log(ele.getAttribute("my"))
+
+        var attrs1 = ele.attributes ;
+        Array.from(attrs1).forEach(attr =>{
+            log(`${attr.name}值:${attr.value}`)
+        })
+        log(ele.attributes)
+
+        function log(val){
+            console.log(val)
+        }
+
+        //数据监控
+        function observe(data){
+            if(!data||typeof data !== 'object') return;
+            Object.keys(data).forEach(key=>{
+                defineReactive(data,key,data[key])
+            })
+            return data
+        }
+
+        function defineReactive(data,key,val){
+            var dep = new Dep() ;
+            Object.defineProperty(data,key,{
+                configurable: true,
+                enumerable: true ,
+                get(){
+                    if(Dep.target){
+                        dep.add(Dep.target)
+                    }
+                    log(`${key}属性执行get操作`);
+                    return val;
+                },
+                set(newval){
+                    if(Object.is(val,newval)) return ;
+                    log(`${key}属性执行set操作`) ;
+                    val = newval ;
+                    dep.notify()
+                }
+            })
+        }
+
+        //消息订阅器
+        function Dep(){
+            this.subs = []
+        }
+
+        Dep.prototype.add = function(dep){this.subs.push(dep)}
+
+        Dep.prototype.notify = function(){this.subs.forEach(sub=>sub.update())}
+
+        //缓存消息
+        Dep.target = null
+
+
+        function Watcher(vm,bindName,cb){
+            this.vm = vm ;
+            this.name = bindName;
+            this.cb = cb ;
+            this.value = this.get()
+        }
+
+        Watcher.prototype.get = function(){
+            Dep.target = this ;
+            var value = this.vm.data[this.name]
+            Dep.target = null ;
+            return value
+        }
+        Watcher.prototype.update = function(){
+            var value = this.vm.data[this.name];
+            var oldVal = this.value;
+            if (value !== oldVal) {
+            this.value = value;
+            this.cb.call(this.vm, value, oldVal);
+            }
+        }
+
+        function Mvvm(options){
+            this.vm = this ;
+            this.el = document.querySelector(options.el) ;
+            this.data = options.data || {} ;
+            this.methods = options.methods || {};
+            for(let key in this.methods){
+                this.methods[key] = this.methods[key].bind(this)
+            }
+            observe(this.data)
+            new Compile(this)
+        }
+        
+        function isModel(attr) {
+             return attr.name === "v-model";
+        }
+
+        function isHandle(attr) {
+            return attr.name.indexOf("v-on") > -1;
+        }
+
+        function Compile(vm){
+            this.vm = vm ;
+            this.el = vm.el ;
+            this.traverse(this.el)
+        }
+        Compile.prototype.traverse = function(node){
+            if(node.nodeType ===3){
+                this.rendertext(node)
+            }else{
+                this.compile(node);
+                this.rendertext(node)
+                node.childNodes.forEach(chileNode => this.traverse(chileNode))
+            }
+        }
+        Compile.prototype.compile = function(node){
+            let attrs = Array.from(node.attributes);
+            attrs.forEach(attr =>{
+                if(isModel(attr)){
+                    this.bindModal(node,attr);
+                }else if(isHandle(attr)){
+                    this.bindHandler(node,attr)
+                }
+            })
+        }      
+        
+        Compile.prototype.bindModal= function (node,attr){
+            let key = attr.value;
+            node.value = this.vm.data[key];
+            new Watcher(this.vm,key,function(newVal){node.value = newVal})
+            node.onchange = (e) =>{
+                this.vm.data[key] = e.target.value
+            }
+        }
+
+        Compile.prototype.bindHandler = function(node,attr){
+            
+            let start = attr.name.indexOf(":")+1 ;
+            let end = attr.name.length ;
+            let eventType = attr.name.substring(start,end)
+            let method = attr.value ;
+            node.addEventListener(eventType,this.vm.methods[method])
+        }
+
+        Compile.prototype.rendertext = function(node){
+            let reg = /{{(.+?)}}/g ;
+            let match ;
+            while((match=reg.exec(node.nodeValue))){
+                let raw = match[0] ;
+                let key = match[1].trim();
+                node.nodeValue = node.nodeValue.replace(raw, this.vm.data[key]);
+                new Watcher(this.vm,key,function(newVal, oldVal){
+                    node.textContent = newVal
+                })
+            }
+        }
+
+
+        let obj = new Mvvm({
+            el:'div',
+            data:{
+                a:1,
+                b:2
+            },
+            methods:{
+                click(){
+                    log('hello')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

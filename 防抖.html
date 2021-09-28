@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head></head>
+<body>
+    <!-- <div id="container">
+        0
+    </div> -->
+
+    <div id='throtter'>
+        1
+    </div>
+    
+    <script>
+        var count = 0
+        var element = document.getElementById("container")
+        var elethrotter = document.getElementById('throtter')
+        function throtter(func,wait){
+            let args,context
+            let privious = 0
+            return function(){
+                let now = +new Date()
+                context = this
+                args =arguments
+                if(now-privious>wait){
+                    func.apply(context,args)
+                    privious = now
+                }
+            }
+        }
+        function debounce(func,wait){
+            var timeout;
+            return function (){
+                var context = this
+                var args = arguments;
+                clearTimeout(timeout)
+                timeout = setTimeout(function(){func.apply(context,args)},wait)
+            }
+        }
+        function get(e){
+            console.log(e)
+            elethrotter.innerHTML = ++count
+        }
+        // element.onmousemove = debounce(get,3000)
+        elethrotter.onmousemove = throtter(get,2000)
+    </script>
+</body>
+</html>

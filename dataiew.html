@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas width="1000" height="600" id="canva" style="border: 1px solid red;"></canvas>
+
+    <script>
+        function Mycharts(el){
+            this.el = el ;
+            this.ctx = el.getContext('2d');
+            Window.ctx = this.ctx;
+            this.width = el.width ;
+            this.height = el.height ;
+            this.xAxisArray = [20] ;
+            this.yAxisArray = [] ;
+            //0原点坐标
+            this.zeroAxis = {
+                x: 5,
+                y: 490,
+                //原点标尺
+                z: 495
+            }
+        }
+
+
+        Mycharts.prototype.setOption =function(option){
+            this.xAxis = option.xAxis || {} ;
+            this.yAxis = option.yAxis || {} ;
+            this.seris = option.seris || {} ;
+        }
+
+        //绘制横坐标
+        Mycharts.prototype.drawxAxis = function(){
+            var xAxisStart = this.xAxisArray[0];
+            var data = this.xAxis.data;
+
+            //绘制横轴
+            this.ctx.beginPath();
+            this.ctx.moveTo(xAxisStart,this.zeroAxis.y)
+            this.ctx.lineTo(xAxisStart+data.length*100,this.zeroAxis.y);
+            this.ctx.stroke();
+
+            //绘制坐标
+            for(var i=-1;i<data.length;i++){
+                this.ctx.beginPath();
+                this.ctx.moveTo(xAxisStart,this.zeroAxis.y)
+                this.ctx.lineTo(xAxisStart,this.zeroAxis.z)
+                if(i===-1){
+                    //初始节点
+                    this.ctx.strokeText(0,this.zeroAxis.x,this.zeroAxis.y)
+                }else{
+                    this.ctx.strokeText(data[i],(this.xAxisArray[i]+this.xAxisArray[i+1])/2,this.zeroAxis.z+10)
+
+                }
+                xAxisStart +=100 ;
+                this.xAxisArray.push(xAxisStart)
+                this.ctx.stroke();
+            }
+        }
+
+        //绘制纵坐标
+        Mycharts.prototype.drawYAxis = function(){
+            var data  = this.yAxis.data ;
+            //刻度尺
+            var ruler = 0 ; 
+            var yAxis = this.zeroAxis.y ;
+            for(var i=0;i<data.length;i++){
+                ruler +=50 ;
+                yAxis -=50;
+                this.ctx.beginPath();
+                this.ctx.moveTo(this.xAxisArray[0],yAxis),
+                this.ctx.lineTo(this.xAxisArray[this.xAxisArray.length-2],yAxis)
+                this.ctx.strokeText(ruler,this.zeroAxis.x,yAxis)
+                this.ctx.stroke();
+            }
+
+        }
+
+        Mycharts.prototype.drawMain= function(){
+
+            var data  = this.yAxis.data ;
+            this.ctx.beginPath();
+            this.ctx.moveTo((this.xAxisArray[1]+this.xAxisArray[0])/2,this.zeroAxis.y-data[0])
+            for(var i=1;i<data.length;i++){
+                this.ctx.lineTo((this.xAxisArray[i+1]+this.xAxisArray[i])/2,this.zeroAxis.y-data[i])
+            }
+            this.ctx.stroke();
+        }
+
+        var myCharts = new Mycharts(document.getElementById('canva'));
+        var options = {
+            xAxis:{
+                data:['apple','mi','vivo','oppo']
+            },
+            yAxis:{
+                data:[58,78,138,158]
+            }
+        }
+        myCharts.setOption(options);
+        myCharts.drawxAxis();
+        myCharts.drawYAxis();
+        myCharts.drawMain();
+    </script>
+</body>
+</html>

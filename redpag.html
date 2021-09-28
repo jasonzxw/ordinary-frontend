@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,body{
+            margin: 0px;
+            height: 100%;
+        }
+        div{
+            height: 100%;
+            width: 100%;
+        }
+        img{
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <img  alt="" width="300"><br>
+    <p onclick="stopAnimate()">停止</p>
+    <div>
+        <canvas id="canva" height="600px" width="1000px" style="border: 1px solid red;"></canvas>
+    </div>
+    
+    <script>
+        var  el = document.getElementById('canva');
+        var ctx = el.getContext('2d');
+        var positionArray = [];
+        var timer;
+        var score =0;
+
+        var img = document.querySelector("img");
+        img.src ='./tree.jpg';
+
+        img.onload = function(){
+            ctx.drawImage(img, 0, 0);
+        }
+        el.onclick =  function(e){
+            var x = e.offsetX ;
+            var y = e.offsetY ;
+            target.circleArray.forEach(circle=>{
+                if(circle.x-10<=x &&  x<=circle.x+10  && circle.y-10<=y &&y<=circle.y){
+                    score += 1 ;
+                }
+            })
+        }
+
+        function stopAnimate(){
+            clearInterval(timer);
+            alert(`您的积分为:${score}`)
+        }
+        function log(content){
+            console.log(`[日志:]${content}`)
+        };
+
+        //随机生成两者之间
+        function generate(begin,end){
+            var position = Math.floor(Math.random()*(end-begin))+1 ;
+            while(judPosition(position)){
+                position = Math.floor(Math.random()*(end-begin))+1 ;
+            }
+            positionArray.unshift(position);
+            return new Circle(position,10,10,0,2*Math.PI,'red');
+        }
+
+        //判断是否有重复
+        function judPosition(position){
+            return positionArray.some(item=> item === position);
+        }
+
+        
+        //x,y 坐标 circle半径 startAngle起始角度 endAngle结束角度
+        function Circle(x,y,circle,startAngle,endAngle,color){
+            this.x = x;
+            this.y = y;
+            this.circle = circle;
+            this.startAngle = startAngle;
+            this.endAngle = endAngle;
+            this.color = color;
+        }
+        Circle.prototype.draw = function(){
+            ctx.fillStyle = this.color;
+            ctx.beginPath()
+            ctx.arc(this.x,this.y,this.circle,this.startAngle,this.endAngle)
+            ctx.fill()
+            ctx.stroke()
+
+        }
+
+        function Main(){
+            this.circleArray = [generate(50,600),generate(50,600),generate(50,600)];
+        }
+
+        Main.prototype.run = function(){
+            this.circleArray.forEach(circle => circle.draw())
+        }
+
+        Main.prototype.judge = function(){
+            for(var i=0;i<this.circleArray.length;i++){
+                if(this.circleArray[i].y>590){
+                    return i+1;
+                }
+            }
+            return false;
+        }
+
+        Main.prototype.move = function(){
+            var positionJudge  = this.judge();
+            if(positionJudge){
+                this.circleArray.splice(positionJudge-1,1);
+                this.circleArray.push(generate(10,1000))
+            }
+            this.circleArray.forEach(circle=>circle.y+=40);
+
+        }
+
+        function start(){
+            var main = new Main();
+            window.target  =  main ;
+            timer =  setInterval(function(){
+                ctx.clearRect(0, 0, 1000, 600);
+
+                ctx.drawImage(img, 0, 0);
+
+                ctx.save();
+                main.move();
+                main.run();
+                ctx.restore();
+            },1000)
+        }
+
+        start()
+    </script>
+</body>
+</html>

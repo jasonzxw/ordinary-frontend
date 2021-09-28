@@ -1,0 +1,9 @@
+基础hook
+
+1. useState
+返回 state 以及更新state的函数;initialState可为基础值或者函数
+const [state,setState] = useState(initialState)
+
+2. useEffect 类似于生命周期
+参数为函数以及监听的参数(依赖它的变化而变化);在卸载时可在function中返回参数
+ useEffect(function,[...])

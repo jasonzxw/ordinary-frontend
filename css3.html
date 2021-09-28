@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    html,body{
+        height: 100%;
+    }
+    #circle{
+        margin: 0 auto;
+        width: 100px;
+        height: 100px;
+        border: 1px solid red;
+        border-radius: 50%;
+    }
+    #move{
+        transform: translate(100px,50px);
+        height: 30px;
+        width: 10px;
+        background-color: skyblue;
+        transform: rotate(30deg)
+    }
+    div p{
+        color: seagreen;
+    }
+    div>p{
+        color: sienna;
+    }
+
+    #movie{
+        height: 100px;
+        width: 100px;
+        border: 1px solid red;
+        /* border-radius: 50%; */
+        background-color: burlywood ;
+        /* -webkit-animation: myMovie 100s infinite linear; */
+        position: absolute;
+    }
+    @keyframes myMovie {
+        100%{
+            transform: rotate(-360deg);
+        }
+    }
+</style>
+<body>
+
+    <div id="circle">
+
+    </div>
+    <div id="move">
+
+    </div>
+    <div>
+        <div>
+            <p>hello</p>
+        </div>
+        <p>world</p>
+    </div>
+
+    <!-- <div id="movie">
+
+    </div> -->
+
+    <canvas id="can" width="500" height="500" style="border: 1px solid red;"></canvas>
+    <script>
+        const el = document.getElementById("can");
+        const ctx = el.getContext("2d");
+
+        function randomInt(from, to){
+        return parseInt(Math.random() * (to - from + 1) + from);
+    }
+        //画直线
+        // ctx.moveTo(0,0);
+        // ctx.lineTo(200,100);
+        // ctx.stroke()
+        //画圆
+        // ctx.beginPath();
+        // ctx.arc(95,50,40,0,2*Math.PI);//arc(x,y,r,start,stop)
+
+        //绘制文本
+        // ctx.fillText("hello world",100,100)
+
+
+        // ctx.beginPath(); //新建一条path
+        // ctx.moveTo(150,50);
+        // ctx.lineTo(50,100);
+        // ctx.lineTo(68,78);
+        // ctx.lineTo(75,100);
+
+
+
+        // ctx.moveTo(40, 200); //起始点
+        // var cp1x = 20, cp1y = 100;  //控制点1
+        // var cp2x = 100, cp2y = 120;  //控制点2
+        // var x = 200, y = 200; // 结束点
+        //绘制二次贝塞尔曲线
+    //    ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+
+        //closePath自动缝合路径(始节点到末节点),不调用的话会形成折线
+        // ctx.closePath();
+        //添加图片 drawImage(image,x,y)
+
+        //开始绘制
+        function draw(){
+
+        ctx.clearRect(0, 0, 500, 500); //清空所有的内容
+        ctx.save()
+        ctx.translate(250,250)
+
+        let time = new Date();
+        ctx.arc(0,0,25,0,2*Math.PI)
+        ctx.fill();
+        ctx.beginPath();
+        ctx.strokeStyle = "rgba(255,255,0,0.5)";
+        ctx.arc(0, 0, 100, 0, 2 * Math.PI)
+        // ctx.closePath()
+        ctx.stroke()
+
+        ctx.beginPath();
+        ctx.rotate(2 * Math.PI / 60 * time.getSeconds() + 2 * Math.PI / 60000 * time.getMilliseconds())
+        ctx.arc(100, 0, 10, 0, 2 * Math.PI)
+        ctx.stroke()
+        ctx.restore()
+        requestAnimationFrame(draw)
+        }
+      
+
+        function line(){
+            for(let i=50;i<500;i){
+                ctx.beginPath();
+                ctx.moveTo(i,500)
+                ctx.lineTo(i,490)
+                ctx.closePath();
+                ctx.fillText(i,i,500)
+                ctx.stroke()
+
+                ctx.beginPath();
+                ctx.strokeStyle = "rgba(255,255,0,0.5)";
+                ctx.moveTo(0,500-i)
+                ctx.lineTo(500,500-i)
+                ctx.closePath();
+                ctx.stroke()
+
+                i =i+50
+            }
+            ctx.beginPath();
+            ctx.moveTo(50,500-10)
+            ctx.lineTo(100,500-20)
+            ctx.lineTo(150,500-50)
+            ctx.stroke();
+        }
+        line()
+        draw()
+    </script>
+</body>
+</html>

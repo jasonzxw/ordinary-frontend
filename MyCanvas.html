@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mycanvas</title>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas width="600" height="600" id="canva" style="border: 1px solid red;"></canvas>
+
+    <script>
+
+        var el = document.getElementById('canva');
+        var ctx = el.getContext('2d');
+
+        window.onload = function(){
+            el.width = window.innerWidth-10;
+            el.height =  window.innerHeight-10;
+            drawSmile();
+        }
+
+        function drawSmile(){
+            ctx.beginPath();
+            ctx.arc(200,200,50,0,Math.PI*2,true);
+            //将笔触移动到指定的坐标x以及y上,通常用于绘制不连续图形。
+            ctx.moveTo(Math.cos(Math.PI/4)*35+200,Math.sin(Math.PI/4)*35+200);
+            ctx.arc(200,200,35,Math.PI/4,Math.PI/4*3);
+            ctx.moveTo(195,185);
+            ctx.arc(185,185,10,0,Math.PI*2);
+            ctx.moveTo(225,185);
+            ctx.arc(215,185,10,0,Math.PI*2)
+
+            //鼻梁
+            ctx.moveTo(198,195);
+            ctx.lineTo(198,200);
+
+            ctx.moveTo(198,200);
+            //二次贝塞尔
+            ctx.quadraticCurveTo(192,210,198,210)
+
+            ctx.moveTo(202,195);
+            ctx.lineTo(202,200);
+
+            ctx.moveTo(202,200);
+            //二次贝塞尔
+            ctx.quadraticCurveTo(208,210,202,210)
+
+            ctx.moveTo(187,185);
+            ctx.arc(185,185,2,0,Math.PI*2)
+            ctx.moveTo(217,185);
+            ctx.arc(215,185,2,0,Math.PI*2)
+            ctx.moveTo(200,150)
+            ctx.lineTo(175,140)
+            ctx.moveTo(200,150)
+            ctx.lineTo(200,130)
+            ctx.moveTo(200,150)
+            ctx.lineTo(225,140)
+            ctx.stroke();
+        }
+        //绘制矩形
+        function drawRect(){
+            //填充矩形
+            ctx.fillRect(100,100,150,200);
+            //清除指定矩形区域ss
+            ctx.clearRect(150,150,50,50);
+            //边框矩形
+            ctx.strokeRect(50,50,300,350);
+        }
+        //路径绘制三角形
+        function drawTriangle(){
+            ctx.beginPath();
+            ctx.moveTo(75, 50);
+            ctx.lineTo(100, 75);
+            ctx.lineTo(100, 25);
+            //闭合路径之后图形绘制命令又重新指向到上下文中
+            ctx.closePath();
+            //绘制轮廓
+            ctx.stroke();
+            //绘制实心
+            ctx.fill()
+        }
+
+
+
+        
+
+    </script>
+</body>
+</html>

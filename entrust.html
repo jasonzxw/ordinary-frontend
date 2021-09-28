@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件代理</title>
+</head>
+<body>
+    <ul id='test'>
+
+    </ul>
+    <script>
+        (
+            function(){
+            var ele = document.getElementById('test')
+            for(var i=0 ;i<3;i++){
+            var element = document.createElement('li')
+            element.innerText = i
+            ele.appendChild(element)
+        }
+
+            ele.addEventListener('click',function(e){
+            if(e.target.tagName ==='LI'){
+                console.log(e.target.innerText)
+            }
+        })
+            }
+        )()
+    </script>
+</body>
+</html>

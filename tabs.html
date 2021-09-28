@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        .wrap{
+            margin: 20px auto;
+            width: 403px;
+            height: 600px;
+            border:1px solid brown;
+            position: relative;
+        }
+        label{
+            width: 100px;
+            height: 30px;
+            float: left;
+            text-align: center;
+            line-height:30px;
+            border-right: 1px solid brown;
+            border-bottom: 1px solid brown;
+        }
+        label:nth-of-type(4){
+            border-right: none;
+        }
+        label span{
+            cursor: pointer;
+        }
+        label div{
+            width: 403px;
+            height: 568px;
+            position: absolute;
+            left: 0;
+            top: 31px;
+            background: #eeeeee;
+            display: none;
+        }
+        label input{
+            width: 0;
+        }
+        input:checked+div{
+            display: block;
+            
+        }
+        input:checked+span{
+            background-color: cadetblue;            
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <label>
+            <span>home</span>
+            <input type="radio" name="tab" checked>
+            <div>home-page</div>
+        </label>
+        <label>
+            <span>list</span>
+            <input type="radio" name="tab">
+            <div>list-page</div>
+        </label>
+        <label>
+            <span>news</span>
+            <input type="radio" name="tab">
+            <div>news-page</div>
+        </label>
+        <label>
+            <span>mine</span>
+            <input type="radio" name="tab">
+            <div>mine-page</div>
+        </label>
+    </div> 
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,body{
+            margin: 0px;
+            height: 100%;
+        }
+        #dialog{
+            left: 0px;
+			top: 0px;
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            opacity: 0.5;
+            background: #000;
+        }
+        .content{
+               position: relative;
+				background: #fff;
+				width: 50%;
+				height: 80%;
+				border-radius: 5px;
+				margin: 5% auto;
+        }
+        .cancel{
+            background: red;
+            position: absolute;
+            border-radius: 5px;
+            width: 5px;
+            height: 5px;
+            right: 5px;
+			top: 5px;
+            border: 1px solid red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <p onclick="showDialog()">弹窗</p>
+    <div class="dialog"id="dialog">
+        <div class="content">
+            <span>弹窗</span>
+            <div onclick="cancel()" class="cancel">x</div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("dialog").style.display= "none"
+        function showDialog(){
+            var ele= document.getElementById("dialog");
+            ele.style.display=""
+        }
+
+
+        function cancel(){
+            document.getElementById("dialog").style.display= "none"
+        }
+    </script>
+</body>
+</html>

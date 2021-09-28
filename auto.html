@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #div1{
+            border: 1px solid red;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1">
+    </div>
+</body>
+<script>
+    document.getElementById('div1').onclick = function(){
+        objProxy.count += 1
+    }
+
+    const obj = {
+        count:1
+    }
+    const renderArray = [] ;
+
+    const observe = fn => renderArray.push(fn) ;
+
+    function set(target,key,val){
+        const result = Reflect.set(target,key,val)
+        renderArray.forEach(item => item())
+    }
+
+    const auto = obj => new Proxy(obj,{set})
+
+    function render(){
+        document.getElementById('div1').textContent = obj.count
+    }
+
+    const objProxy = auto(obj) ;
+    observe(render)
+
+</script>
+</html>

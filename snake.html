@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .moveSnake{
+            background-color: cadetblue;
+            position: absolute;
+            height: 10px;
+            width: 10px;
+            border-radius: 80%;
+        }
+        .controller{
+            float: right;
+            width: 20px;
+        }
+        html body{
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+        <div id="snake" class="moveSnake">
+
+        </div>
+    
+
+    <div  class="controller">
+        <button id="left">左</button>
+        <button id="right">右</button>
+        <button id="top">上</button>
+        <button id="under">下</button>
+        <button id="stop">停</button>
+        <!-- <span id="create">生</span> -->
+    </div>
+</body>
+<script>
+    var windowHeight = window.innerHeight; //浏览器高度
+    var windowWidth = window.innerWidth ; //浏览器宽度
+    var collectele = [] ;//用于收集生成的element
+    var topRadio = [] ; //用于收集生成的top值
+    var leftRadio = [] ; //用于收集生成的radio值
+    var ele = document.getElementById(snake) ;
+    var timeId ;//控制移动时间id
+    var createId ; //控制生成的时间id
+    var left = 0 ; //左距离
+    var fromtop  = 0 ; //上距离
+    var count = 0 ; //蛇的长度
+
+    window.onload = function(){
+        createId =setInterval(() => {
+           randomRadio() 
+        }, 1000);
+    };
+
+    function randomRadio(){
+        var positionLeft = randomNum(1,windowWidth);
+        var positionTop = randomNum(1,windowHeight);
+        leftRadio.push(getDistance(positionLeft));
+        topRadio.push(getDistance(positionTop));
+        var element = document.createElement('div')
+        console.log('element',element.nodeType)
+        element.setAttribute(
+            'style','background-color:red;'+"position:relative;"+"height:10px;"+" width: 10px;"+"border-radius: 50%;"+'left:'+positionLeft+'px'+';'+'top:'+positionTop+'px'
+        )
+        collectele.push(element)
+        document.body.appendChild(element)
+    };
+
+    //获取当前点的四周距离
+    function getDistance(distance){
+            var array = []
+            for(var i=1;i<21;i++){
+                if(i<10){
+                    array.push(distance-i)
+                }
+                else{
+                    array.push(distance+i)
+                }
+            }
+            return array
+    }
+
+
+    function move(ele,type){
+      
+        var param = 1 ;
+        var leftdistance = [] ; //点的左距离
+        var topdistance = [] ; //点的上距离
+        if(timeId){
+            clearInterval(timeId);
+        }
+        if(type === 'left' || type === 'top'){
+            param = -1;
+        }
+        
+
+        function add(){
+            if(type === 'left' || type ==='right'){
+                if(left>=0 && left<windowWidth){
+                    left += param*1 ;
+                }
+                else{
+                    clearInterval(timeId)
+                    left = 0 ;
+                    fromtop  = 0 ;
+                    alert('已超出边界')
+                }
+
+            }
+            else{
+                if(fromtop>=0 && fromtop<windowHeight){
+                    fromtop += param*1 ;
+                }
+                else{
+                    clearInterval(timeId)
+                    left = 0 ;
+                    fromtop  = 0 ;
+                    alert('已超出边界')
+                }
+            }
+        }
+        function findIndex(self,radio){
+                for(var i= 0 ;i<radio.length ;i++){
+                    if(radio.indexOf(self[i]) !==-1){
+                        return radio.indexOf(self[i])
+                    }
+                }
+                return -1
+        }
+
+        function update(){
+            if(type === 'left' || type ==='right'){
+
+                ele.setAttribute(
+                    'style','left:'+left+'px'+';'+(fromtop?'top:'+fromtop+'px':'')
+                )
+            }
+            else{
+                ele.setAttribute(
+                    'style','top:'+fromtop+'px'+';'+(left?'left:'+left+'px':'')
+                )
+            }
+
+            function getIndex(data,type){
+                var index = -1 ;
+                if(type === 'left'){
+                    var length = leftRadio.length ;
+                   for(var list =0 ;list<length;list++){
+                    if(leftRadio[list].indexOf(data)>-1){
+                        return list
+                    }
+                }
+                return index;
+                }
+                else{
+                    var length = topRadio.length ;
+                    for(var list =0 ;list<length;list++){
+                    if(topRadio[list].indexOf(data)>-1){
+                        return list
+                    }
+                }
+                return index;
+                }
+            }
+
+            var leftindex = getIndex(left,'left');
+            var topindex = getIndex(fromtop,'top');
+            console.log('leftindex',leftindex,'topindex',topindex)
+            if(leftindex>-1 && topindex>-1){
+                console.log('index',leftindex)
+                console.log('ele',collectele[leftindex])
+                collectele[leftindex].setAttribute(
+                    'style','visibility:hidden;'
+                )
+                // document.body.removeChild(collectele[leftindex])
+                getElement(left,fromtop)
+            }
+        }
+        function loop(){
+            add();
+            update();
+        }
+
+        function getElement(left,top){
+            var element = document.createElement('div')
+            element.setAttribute(
+            'style','background-color:red;'+"display:inline;"+"height:10px;"+" width: 10px;"+"border-radius: 50%;"
+        )
+        console.log('element',element)
+        ele.appendChild(element)
+        // mainEle.appendChild(element)
+        }
+        timeId = setInterval(() => {
+           loop() 
+        }, 1000/60);
+
+    }
+    function stopMove(){
+        clearInterval(timeId)
+    }
+
+    function randomNum(minNum, maxNum) {
+       switch (arguments.length) {
+         case 1:
+               return parseInt(Math.random() * minNum + 1, 10);
+               break;
+         case 2:
+                return parseInt(Math.random() * ( maxNum - minNum + 1 ) + minNum, 10);
+               break;
+        default:
+               return 0;
+                break;
+  }
+} 
+
+    document.getElementById('left').onclick = function(){
+        move(document.getElementById('snake'),'left')
+    }
+    document.getElementById('right').onclick = function(){
+        move(document.getElementById('snake'),'right')
+    }
+    document.getElementById('top').onclick = function(){
+        move(document.getElementById('snake'),'top')
+    }
+    document.getElementById('under').onclick = function(){
+        move(document.getElementById('snake'),'under')
+    }
+    document.getElementById('stop').onclick = function(){
+        stopMove()
+        clearInterval(createId)
+    }
+    // document.getElementById('create').onclick = function(){
+    //     clearInterval(createId)
+    //     }
+</script>
+</html>
