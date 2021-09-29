@@ -13,19 +13,83 @@
     </style>
 </head>
 <body>
-    <canvas width="600" height="600" id="canva" style="border: 1px solid red;"></canvas>
+    <canvas  id="canva" style="border:1px solid  red"></canvas>
 
     <script>
 
         var el = document.getElementById('canva');
         var ctx = el.getContext('2d');
+        var i = 1;
+        el.addEventListener('click',canvasClick)
 
         window.onload = function(){
-            el.width = window.innerWidth-10;
-            el.height =  window.innerHeight-10;
-            drawSmile();
+            el.width = window.innerWidth-6;
+            el.height =  window.innerHeight-6;
+            simpleRoate()
         }
 
+        function generateCircle(radius,ifFill){
+            ctx.beginPath();
+            ctx.arc(0,0,radius,0,Math.PI*2);
+            ctx.stroke();
+            if(ifFill){
+                ctx.fill();
+            }
+        }
+        function simpleRoate(){
+            ctx.clearRect(0,0,el.width,el.height)
+            let time = new Date();
+            var degree = ((2*Math.PI)/60)*time.getSeconds() + ((2*Math.PI)/60000)*time.getMilliseconds();
+            //保存原有状态
+            ctx.save();
+            ctx.lineCap = "round";
+            ctx.translate(500,500);
+            generateCircle(100,false);
+            generateCircle(5,true);
+
+            ctx.save()
+            //绘制刻度
+            for(var i=0;i<60;i++){
+               if(i%5!=0){
+                ctx.beginPath();
+                ctx.moveTo(100,0);
+                ctx.lineTo(95,0);
+                ctx.stroke();
+               }
+                ctx.rotate(Math.PI/30)
+            }
+            ctx.restore();
+
+            ctx.save()
+            for(var i=0;i<12;i++){
+                ctx.lineWidth = 6;
+                ctx.beginPath();
+                ctx.moveTo(100,0);
+                ctx.lineTo(90,0);
+                ctx.stroke();
+                ctx.rotate(Math.PI/6)
+            }
+            ctx.restore();
+            ctx.rotate(degree);
+
+            ctx.beginPath();
+            ctx.moveTo(0,0);
+            ctx.lineTo(0,70);
+            ctx.stroke();
+            ctx.restore()
+            requestAnimationFrame(simpleRoate)
+        }
+        //绘制文本
+        function drawText(){
+
+            //指定文本大小
+            ctx.font = "48px serif";
+            //填充文本
+            ctx.fillText('hello world',400,400);
+            //文本边框
+            ctx.strokeText('Hello World',450,450);
+        }
+        //绘制笑脸
         function drawSmile(){
             ctx.beginPath();
             ctx.arc(200,200,50,0,Math.PI*2,true);
@@ -87,8 +151,11 @@
             ctx.fill()
         }
 
-
-
+        //获取鼠标点击的宽度及高度 
+        function canvasClick(e){
+            console.log(`[宽度:]${e.offsetX}`)
+            console.log(`[高度:]${e.offsetY}`)
+        }
         
 
     </script>
