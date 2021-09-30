@@ -7,8 +7,8 @@
     <title>Document</title>
     <style>
         html,body{
-            margin: 0px;
-            height: 100%;
+            margin: 0;
+            padding: 0;
         }
         #dialog{
             left: 0px;
@@ -28,24 +28,22 @@
 				margin: 5% auto;
         }
         .cancel{
-            background: red;
             position: absolute;
-            border-radius: 5px;
-            width: 5px;
-            height: 5px;
-            right: 5px;
+            width: 20px;
+            height: 20px;
+            right: 20px;
 			top: 5px;
-            border: 1px solid red;
             text-align: center;
         }
     </style>
 </head>
 <body>
     <p onclick="showDialog()">弹窗</p>
+    <button>111</button>
     <div class="dialog"id="dialog">
         <div class="content">
             <span>弹窗</span>
-            <div onclick="cancel()" class="cancel">x</div>
+            <div onclick="cancel()" class="cancel"><button style="background-color: red;">x</button></div>
         </div>
     </div>
     <script>
