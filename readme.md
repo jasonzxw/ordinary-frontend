@@ -608,7 +608,7 @@ context('minus100_30', 270)
 
 例如，浏览器会根据<img>标签的src属性的值来读取图片信息并显示出来，而如果查看(x)html代码，则看不到图片的实际内容；<input>标签的type属性决定是显示输入框，还是单选按钮等。
 
-html(5)中的置换元素有 <img>、<input>、<textarea>、<select>、<object>、<iframe> 和 <canvas> 等。
+html(5)中的置换元素有 <img>、<input>、<textarea>、<select>、<object>、<button>、<iframe> 和 <canvas> 等。
 置换元素在其显示中生成了框，这就是有些内联元素能够设置宽高的原因。
 
 ②非置换元素
