@@ -10,22 +10,103 @@
             margin: 0;
             padding: 0;
         }
+        #zhezhao{
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: darkgray;
+        }
+        #show{
+            background-color: darkseagreen;
+        }
     </style>
 </head>
 <body>
     <canvas  id="canva" style="border:1px solid  red"></canvas>
-
+    <div id="zhezhao">
+        <div id="show">
+            游戏结束
+        </div>
+    </div>
     <script>
+        var endEl = document.getElementById('zhezhao')
 
         var el = document.getElementById('canva');
         var ctx = el.getContext('2d');
         var i = 1;
+        var ref;
         el.addEventListener('click',canvasClick)
 
         window.onload = function(){
             el.width = window.innerWidth-6;
             el.height =  window.innerHeight-6;
-            simpleRoate()
+            drawBall()
+        }
+
+        function  Ball(x,y,radius,mx,my,color){
+            this.x = x ;
+            this.y = y ;
+            this.radius = radius ;
+            this.mx = mx ;
+            this.my = my ;
+            this.color =  color ;
+        }
+
+        Ball.prototype.draw = function(){
+            ctx.save()
+            ctx.beginPath();
+            ctx.fillStyle = this.color;
+            ctx.arc(this.x,this.y,this.radius,0,Math.PI*2);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        //判断球的边界问题
+        Ball.prototype.judgeBoundary = function(){
+            // if(ball.x+ball.mx>el.width||ball.x+ball.mx<0){
+            //     ball.mx = -ball.mx;
+            // }
+            if(ball.y+ball.my>el.height){
+                cancelAnimationFrame(ref);
+            }
+            if(ball.y+ball.my<0){
+                cancelAnimationFrame(ref);
+            }
+        }
+
+
+        function Rect(x,y,width,height,color){
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height
+            this.color = color;
+        }
+
+        Rect.prototype.draw = function(){
+            ctx.strokeStyle = this.color
+            ctx.strokeRect(this.x,this.y,this.width,this.height)
+            ctx.strokeRect(this.x,this.height+50,this.width,el.height-this.height-50)
+        }
+
+        var ball = new Ball(300,300,20,5,4,'blue')
+
+        var rect = new Rect(600,0,100,400,'red')
+
+        function drawBall(){
+            ctx.clearRect(0,0,el.width,el.height);
+            ball.draw();
+            rect.draw();
+            // ball.x += ball.mx;
+            if(!window.target){
+                ball.judgeBoundary();
+                ball.y += ball.my;
+            }else{
+                ball.y -= ball.my;
+            }
+            rect.x -= 1;
+            ref =requestAnimationFrame(drawBall)
         }
 
         function generateCircle(radius,ifFill){
@@ -153,8 +234,10 @@
 
         //获取鼠标点击的宽度及高度 
         function canvasClick(e){
-            console.log(`[宽度:]${e.offsetX}`)
-            console.log(`[高度:]${e.offsetY}`)
+            window.target = true;
+            setTimeout(() => {
+                window.target = false; 
+            }, 150);
         }
         
 
