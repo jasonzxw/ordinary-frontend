@@ -12,22 +12,69 @@
             padding: 0;
         }
 
-	div{
+	/* div{
 		background-color:orange;
 		height: 50%;
 		width: 50%;
 		margin: auto;
 		position: relative;
 		top:50%;
-/*		margin-top: -10%
-*/		 transform: translateY(-50%);
+	    transform: translateY(-50%);
+	} */
+	div{
+		display: inline-block;
+		height: 300px;
+		width: 100px;
+		background-color: darkseagreen;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		margin-left: 30px;
+		position: relative;
+	}
+	#div1{
+		margin-left: 400px;
+	}
+
+	span{
+		display: inline-block;
+		width: 20px;
+	}
+	p{
+		display: none;
+	}
+	#div1:hover,#div2:hover,#div3:hover,#div4:hover{
+		width: 300px;
+		justify-content: end;
+	}
+	#div1:hover>p,#div2:hover>p,#div3:hover>p,#div4:hover>p{
+		display: inline;
+		position: absolute;
+		right: 75%;
+		bottom: 20px;
 	}
 	</style>
 </head>
 <body>
-<div>
-	
+<div id="div1">
+	<span>蜂鸟配送</span>
+	<p>全职收入,多老多得</p>
 </div>
+<div id="div2">
+	<span>代理加盟</span>
+	<p>共创合作,领跑市场</p>
+</div>
+<div id="div3">
+	<span>商家开店</span>
+	<p>多一种开店方式</p>
+
+</div>
+<div id="div4">
+	<span>外卖点餐</span>
+	<p>准时必达,超时秒赔</p>
+
+</div>
+
 <script>
 	document.addEventListener('DOMContentLoaded',
 	function(){
