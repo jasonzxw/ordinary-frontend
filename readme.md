@@ -637,3 +637,102 @@ html 的大多数元素是非置换元素，除置换元素之外，所有的元
 CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。
 CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。
 CommonJS 模块的require()是同步加载模块，ES6 模块的import命令是异步加载，有一个独立的模块依赖的解析阶段。
+
+42. 性能优化
+
+前端性能优化分为两类，一类是文件加载更快，另一类是文件渲染更快。
+加载更快的方法：
+• 让传输的数据包更小（压缩文件/图片）：图片压缩和文件压缩
+• 减少网络请求的次数：雪碧图/精灵图、节流防抖
+• 减少渲染的次数：缓存（HTTP缓存、本地缓存、Vue的keep-alive缓存等）
+渲染更快的方法：
+• 提前渲染：ssr服务器端渲染
+• 避免渲染阻塞：CSS放在HTML的head中 JS放在HTML的body底部
+• 避免无用渲染：懒加载
+• 减少渲染次数：对dom查询进行缓存、将dom操作合并、使用减少重排的标签
+加分回答
+雪碧图的应用场景一般是项目中不常更换的一些固定图标组合在一起，比如logo、搜索图标、切换图标等。
+电商项目中最常用到的懒加载，一般在查看商品展示的时候通常下拉加载更多，因为商品数据太多，一次性请求过来数据太大且渲染的时间太长。
+延伸阅读
+雪碧图/精灵图
+• 雪碧图/精灵图：多张图标合并在一张大图中
+• 使用方法
+1. 引入图片
+2. 通过背景定位具体图标
+• 优化方式
+o 减少加载网页图片时服务器的请求次数
+可以合并多数背景图片和小图标，方便在任何位置使用，这样不同位置的请求只需要调用一个图片，从而减少对服务器的请求次数， 降低服务器压力，同时提高了页面的加载速度，节约服务器的流量。
+ssr服务器端渲染
+1. CSR是Client Side Render简称；页面上的内容是我们加载的js文件渲染出来的， js文件运行在浏览器上面，服务端只返回一个html模板。
+2. SSR是Server Side Render简称；页面上的内容是通过服务端渲染生成的，浏览器直接显示服务端返回的html就可以了。
+• 优化方式：减少网络传输：响应快，用户体验好，首屏渲染快，对搜索引擎友好，搜索引擎爬虫可以看到完整的程序源码，有利于SEO.
+缓存
+• http缓存：不需要通过服务器传输数据，直接从http缓存中获取
+o 协商缓存
+o 强制缓存
+• 本地缓存：
+o localstorage：把一般不需要变动的大型数据存储在localstorage中，打开页面判断localstorage中是否有该数据，有就直接从浏览器中获取
+• 优化方式：
+o 减少网络传输的次数
+css和js文件的位置
+1.  css写在head中：css放在body标签尾部时, DOMTree构建完成之后便开始构建RenderTree, 并计算布局渲染网页,等加载解析完css之后, 开始构建CSSOMTree, 并和DOMTree重新构建RenderTree重新计算布局渲染网页，css放在head标签中时, 先加载css, 之后解析css构建CSSOMTree, 于此同时构建DOMTree,CSSOMTree和DOMTree都构建完毕之后开始构建RenderTree, 计算布局渲染网页
+
+2.  js写底部：JavaScript时会阻止其他内容的下载，要等到JS文件下载解析完之后才会显示网页内容。若JS文件很大放在前面就会导致加载时间较长，网页会一直白屏。因为JS一般会涉及到一些DOM操作，所以要等全部的dom元素都加载完再加载JS。
+js文件放在头部如图：
+
+
+js文件放在body底部如图：
+
+懒加载
+• 方法：默认进入页面只展示首屏能够展示的内容，当滚动条拉动到页面底部继续拉动再进行数据加载和渲染
+• 优化方法：
+o 减少不必要的数据传输和渲染
+o 使页面渲染更快
+
+
+对dom查询进行缓存
+• 每次查询dom元素都需要遍历，将查询结果缓存起来
+// 不缓存DOM查询结果
+for (let i = 0; i < document.getElementsByTagName('p').length; i++) {
+// 每次循环，都会计算length，频繁进行DOM查询
+// 缓存DOM查询结果
+const pList = document.getElementsByTagName('p')
+const length = pList.length
+for (let i = 0; i < length; i++) {
+// 缓存length，只进行一次DOM查询
+}
+• 优化方式：减少相同运算的运算次数
+将dom操作合并
+• 多次dom操作合并成一次
+• 优化方式：减少dom渲染的次数
+
+// 未合并
+const listNode = document.getElementById('list')
+// 执行插入
+for (let i = 0; i < 10; i++) {
+const li = document.createElement('li')
+li.innerHTML = 'list item ' + i
+// 创建一个插入一个
+listNode.appendChild(frag)
+}
+// 合并
+const listNode = document.getElementById('list')
+// 创建一个文档片段，此时还没有插入到DOM树中
+const frag = document.createDocumentFragment()
+// 执行插入
+for (let i = 0; i < 10; i++) {
+const li = document.createElement('li')
+li.innerHTML = 'list item ' + i
+frag.appendChild(li)
+}
+// 都完成之后，再插入到DOM树中
+listNode.appendChild(frag)
+节流和防抖
+• 限制用户疯***作，但是事件处理程序设置规定时间内进行响应
+• 节流（Throttle）函数： 对于持续的事件触发，每达到固定时间间隔，执行事件处理函数
+
+
+• 防抖（Debounce）函数: 事件触发停止后开始计时，在固定时间内不再有事件触发，执行事件处理函数
+
+43. 前端比较关心的是 性能、网络、安全以及如何更深入的参加到业务当中理解业务
+
