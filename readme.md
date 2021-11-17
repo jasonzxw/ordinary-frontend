@@ -47,7 +47,7 @@ gr （单位）
 网格数，未被W3C规定，一般不使用。
 
 定义行与列的轨道大小
-grid-template-columns：定义网格的行
+grid-template-columns：定义网格的列
 grid-template-rows：定义网格的行
 
 justify-items: 内容在表格中的对齐方式
