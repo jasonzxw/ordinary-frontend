@@ -362,7 +362,7 @@ beforeRouteEnter beforeRouteUpdate beforeRouteLeave
 *?：表示某个模式出现0次或多次，匹配时采用非贪婪模式。
 ??：表格某个模式出现0次或1次，匹配时采用非贪婪模式。
 
-23. 可以表示为fasle(任何对象都不是)
+23. 取反！可以表示为fasle(任何对象都不是)
 undefined、null、 NaN、 0、 ''、 false
 
 
@@ -432,7 +432,7 @@ Timers Queue -> 步骤2 -> I/O Queue -> 步骤2 -> Check Queue -> 步骤2 -> Clo
 
 27. html5新特性
 
-html语义标签(header、footer、nav、article) 表单增强(input新特性:colo、date、month、email)
+html语义标签(header、footer、nav、article) 表单增强(input新特性:color、date、month、email)
 多媒体 、存储、WebSocket、画布
 
 28. css画圆
@@ -740,4 +740,70 @@ listNode.appendChild(frag)
 • 防抖（Debounce）函数: 事件触发停止后开始计时，在固定时间内不再有事件触发，执行事件处理函数
 
 43. 前端比较关心的是 性能、网络、安全以及如何更深入的参加到业务当中理解业务
+
+44. disabled 与readonly
+
+disabled: 作用于所有的表单元素 阻止对元素的一切操作 表单元素的值无法被提交。
+Readonly : 只针对input(text / password)和textarea有效; 将元素设置为只读，可以获取焦点、失去焦点
+表单不影响提交
+
+45. js
+注意：NaN与任何值都不相等（包括自身）。另外，正0等于负0
+
+非相等运算符(> , < )
+(1)字符串的比较: 两个都是字典 按照字典顺序
+(2)至少有一个不是字符串
+<1> 原始类型值 转成数值比较Number()函数转  -> Number('')为0,其他转字符串都是NaN
+任何值（包括NaN本身）与NaN使用非相等运算符进行比较，返回的都是false。
+<2> 运算子是对象，会转为原始类型的值，再进行比较。
+先调用valueOf方法；如果返回的还是对象，再接着调用toString方法
+
+相等运算符 ==
+原始类型值: 原始类型的值会转换成数值再进行比较
+
+对象（这里指广义的对象，包括数组和函数）与原始类型的值比较时，对象转换成原始类型的值，再进行比较。
+具体来说，先调用对象的valueOf()方法，如果得到原始类型的值，就按照上一小节的规则，互相比较；如果得到的还是对象，则再调用toString()方法，得到字符串形式，再进行比较。 ndefined == null // true
+
+46. Ajax : JavaScript 脚本发起 HTTP 通信
+
+主要步骤:
+创建 XMLHttpRequest 实例
+发出 HTTP 请求
+接收服务器传回的数据
+更新网页数据
+
+常见属性:
+
+XMLHttpRequest.readyState
+XMLHttpRequest.readyState返回一个整数，表示实例对象的当前状态。该属性只读。它可能返回以下值。
+0，表示 XMLHttpRequest 实例已经生成，但是实例的open()方法还没有被调用。
+1，表示open()方法已经调用，但是实例的send()方法还没有调用，仍然可以使用实例的setRequestHeader()方法，设定 HTTP 请求的头信息。
+2，表示实例的send()方法已经调用，并且服务器返回的头信息和状态码已经收到。
+3，表示正在接收服务器传来的数据体（body 部分）。这时，如果实例的responseType属性等于text或者空字符串，responseText属性就会包含已经收到的部分信息。
+4，表示服务器返回的数据已经完全接收，或者本次接收已经失败。
+通信过程中，每当实例对象发生状态变化，它的readyState属性的值就会改变。这个值每一次变化，都会触发readyStateChange事件。
+
+XMLHttpRequest 的实例方法
+XMLHttpRequest.open() : 指定 HTTP 请求的参数
+
+void open(
+   string method,
+   string url,
+   optional boolean async, 是否异步
+   optional string user, 认证的用户名，默认为空字符串。该参数可选
+   optional string password 认证的密码，默认为空字符串。该参数可选
+);
+
+47. css transition(过渡)和 animation(动画)
+简单情况考虑transition ;自由一点或者复杂的可以用animation
+
+CSS transition 强调的是单一动画属性的过度效果,其过程是简单的，由开始到结束的过程，中间不存在可能的动画转折，只有0到1，比喻：渐隐，渐显;
+
+CSS animation 
+表现形式: 使用 @keyframes 规则 在产生效果的盒子里定义 animation:规则
+强调的是多种动画属性的结合，按时间轴线出现周折性动画变换的动画过程，其过程是复杂的，由开始——>结束的过程中，存在可能的动画转折，其过程可能是开始—0—1—2—3>结束的过程
+
+
+48. translate和position区别
+translate()是transform的一个值。改变transform或opacity不会触发浏览器重新布局（reflow）或重绘（repaint），只会触发复合（compositions）。而改变绝对定位会触发重新布局，进而触发重绘和复合。transform使浏览器为元素创建一个 GPU 图层，但改变绝对定位会使用到 CPU。 因此translate()更高效，可以缩短平滑动画的绘制时间。
 
