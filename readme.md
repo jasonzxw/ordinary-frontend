@@ -807,3 +807,22 @@ CSS animation
 48. translate和position区别
 translate()是transform的一个值。改变transform或opacity不会触发浏览器重新布局（reflow）或重绘（repaint），只会触发复合（compositions）。而改变绝对定位会触发重新布局，进而触发重绘和复合。transform使浏览器为元素创建一个 GPU 图层，但改变绝对定位会使用到 CPU。 因此translate()更高效，可以缩短平滑动画的绘制时间。
 
+49. 路由模式的对比
+hash模式:
+原理: 在 url 中的 # 之后对应的是 hash 值, 其原理是通过hashChange() 事件监听hash值的变化, 根据路由表对应的hash值来判断加载对应的路由加载对应的组件
+优点:
+(1) 只需要前端配置路由表, 不需要后端的参与
+(2) 兼容性好, 浏览器都能支持
+(3) hash值改变不会向后端发送请求, 完全属于前端路由
+缺点:
+(1) hash值前面需要加#, 不符合url规范,也不美观
+
+history模式:
+原理:
+优点:
+(1) 符合url地址规范, 不需要#, 使用起来比较美观
+缺点:
+(1) 在用户手动输入地址或刷新页面时会发起url请求, 后端需要配置index.html页面用户匹配不到静态资源的情况, 否则会出现404错误
+(2) 兼容性比较差, 是利用了 HTML5 History对象中新增的 pushState() 和 replaceState() 方法,需要特定浏览器的支持.
+
+
