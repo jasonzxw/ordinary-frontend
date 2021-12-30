@@ -824,5 +824,5 @@ history模式:
 缺点:
 (1) 在用户手动输入地址或刷新页面时会发起url请求, 后端需要配置index.html页面用户匹配不到静态资源的情况, 否则会出现404错误
 (2) 兼容性比较差, 是利用了 HTML5 History对象中新增的 pushState() 和 replaceState() 方法,需要特定浏览器的支持.
-
+ddd
 
