@@ -83,5 +83,23 @@
         附件
         <span>hello world</span>
     </div>
+
+    <div id="reverse">
+        <p>1</p>
+        <p>2<label>&nbsp;2.1</label></p>
+        <p>3<label>&nbsp;3.1</label></p>
+    </div>
+    <script>
+        // 反转当前节点的所有子节点
+        function reverse(node){
+            var fragment = document.createDocumentFragment();
+            while(node.lastChild){
+                //appendChild 移动现有存在的节点到当前位置(ps:也可用作删除节点 我认为)
+                fragment.appendChild(node.lastChild)
+            }
+            node.appendChild(fragment)
+        }
+        reverse(document.getElementById("reverse"))
+    </script>
 </body>
 </html>
