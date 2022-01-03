@@ -1,3 +1,9 @@
+/*
+ * @Author: jasonz
+ * @Date: 2022-01-03 22:32:06
+ * @Last Modified by: jasonz
+ * @Last Modified time: 2022-01-03 22:33:18
+ */
 // 1. 实现Object.create
 /**
  * 
