@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+        *{
+            box-sizing: border-box;
+        }
+        body:hover{
+            cursor:pointer;
+        }
+        body{
+            display: flex;
+        }
+        .div1{
+            flex: 0 0 100px;
+            border: 1px solid red;
+            display: flex;
+            flex-direction: column;
+        }
+        .div1-1,.div1-2{
+            margin-top: 50px;
+        }
+        .div2{
+            flex-grow: 1;
+            flex-shrink: 1 ;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid black
+        }
+        .div2-1{
+            flex: 0 0 100px;
+            border: 1px solid darkkhaki;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .div2-2{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="div1">
+        <div class="div1-1">
+            this is div1-1
+        </div>
+        <div class="div1-2">
+            this is div1-2
+        </div>
+    </div>
+    <div class="div2">
+        <div class="div2-1">
+            this is div2-1
+        </div>
+        <div class="div2-2">
+            this is div2-2
+        </div>
+    </div>
+</body>
+</html>

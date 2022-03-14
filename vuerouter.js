@@ -500,6 +500,8 @@
       return stack.join('/')
     }
   
+
+    /* parse path what includes path、query、hash for returning object */
     function parsePath (path) {
       var hash = '';
       var query = '';
