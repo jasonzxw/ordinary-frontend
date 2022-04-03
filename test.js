@@ -69,3 +69,6 @@ p.then(val => console.log(val))
 p.catch(val => console.log(val))
 
 console.log(3)
+
+
+
