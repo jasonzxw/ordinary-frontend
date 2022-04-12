@@ -142,6 +142,115 @@ bind()方法用于将函数体内的this绑定到某个对象，然后返回一�
 Object.create():接受一个对象作为参数，然后以它为原型，返回一个实例对象。该实例完全继承原型对象的属性
 想要生成一个不继承任何属性（比如没有toString()和valueOf()方法）的对象，可以将Object.create()的参数设为null
 
+7. 异步编程
+setTimeout: 回调函数是对象的方法，那么setTimeout使得方法内部的this关键字指向全局环境，而不是定义时所在的那个对象,解决办法bind对象或者放入函数中调用
+setTimeout(f, 0)会在下一轮事件循环一开始就执行。
+
+8. DOM：最小组成单位叫节点
+节点的类型有七种。
+Document：整个文档树的顶层节点
+DocumentType：doctype标签（比如<!DOCTYPE html>）
+Element：网页的各种HTML标签（比如<body>、<a>等）
+Attr：网页元素的属性（比如class="right"）
+Text：标签之间或标签包含的文本
+Comment：注释
+DocumentFragment：文档的片段
+
+Node
+Node.prototype.appendChild():
+一个节点对象作为参数，将其作为最后一个子节点，插入当前节点 ; 参数节点是 DOM 已经存在的节点，appendChild()方法会将其从原来的位置，移动到新位置
+
+节点集合
+NodeList(类数组对象)：包含各种类型的节点  HTMLCollection：只能包含 HTML 元素节点
+
+document：节点代表整个文档
+获取方法：
+正常的网页，直接使用document或window.document。
+iframe框架里面的网页，使用iframe节点的contentDocument属性。
+Ajax 操作返回的文档，使用XMLHttpRequest对象的responseXML属性。
+内部节点的ownerDocument属性
+
+document.documentElement 当前文档的根元素节点,一般是html
+scrollingElement:文档滚动元素一般是根元素。返回文档顶部=>document.scrollingElement.scrollTop=0
+
+document.readyState属性返回当前文档的状态，共有三种可能的值。
+loading：加载 HTML 代码阶段（尚未完成解析）
+interactive：加载外部资源阶段
+complete：加载完成
+这个属性变化的过程如下。
+浏览器开始解析 HTML 文档，document.readyState属性等于loading。
+浏览器遇到 HTML 文档中的<script>元素，并且没有async或defer属性，就暂停解析，开始执行脚本，这时document.readyState属性还是等于loading。
+HTML 文档解析完成，document.readyState属性变成interactive。
+浏览器等待图片、样式表、字体文件等外部资源加载完成，一旦全部加载完成，document.readyState属性变成complete。 
+
+元素获取
+(1)querySelector() 返回匹配的第一个，querySelectorAll()返回所有匹配给定选择器的节点
+(2)getElementsByTagName() 返回符合条件的所有元素
+(3)getElementsByClassName() 返回一个类似数组的对象所有class名字符合指定条件的元素
+(4)getElementById() 返回匹配指定id属性的元素节点
+
+Element:文档元素组成的每个节点
+className值是一个字符串，每个class之间用空格分割。classList属性返回一个类似数组的对象，当前元素节点的每个class就是这个对象的一个成员。
+
+innerHTML:该元素包含的所有 HTML 代码, outerHTML当前元素节点的所有 HTML 代码，包括该元素本身和所有子元素。
+
+clientHeight: 元素节点的 CSS 高度（单位像素），只对块级元素生效，对于行内元素返回0 ,其中包括padding部分，但是不包括border、margin，如果有水平滚动条，还要减去水平滚动条。如果块级元素没有设置 CSS 高度，则返回实际高度
+clientWidth: 返回元素节点的 CSS 宽度，同样只对块级元素有效，也是只包括元素本身的宽度和padding，如果有垂直滚动条，还要减去垂直滚动条的宽度
+clientLeft: 左边框宽度
+clientTop：顶部边框宽度
+
+scrollHeight：属性返回一个整数值（小数会四舍五入），表示当前元素的总高度（单位像素），包括溢出容器、当前不可见的部分。它包括padding，但是不包括border、margin以及水平滚动条的高度（如果有水平滚动条的话），还包括伪元素（::before或::after）的高度。
+scrollWidth属性表示当前元素的总宽度（单位像素）
+重点：
+// 返回网页的总高度
+document.documentElement.scrollHeight
+document.body.scrollHeight
+元素节点的内容出现溢出，即使溢出的内容是隐藏的，scrollHeight属性仍然返回元素的总高度
+
+scrollTop：表示当前元素的垂直滚动条向下滚动的像素数量。对于那些没有滚动条的网页元素，这两个属性总是等于0
+scrollLeft属性表示当前元素的水平滚动条向右侧滚动的像素数量,scrollTop属性表示当前元素的垂直滚动条向下滚动的像素数量
+
+offsetParent：返回最靠近当前元素的、并且 CSS 的position属性不等于static的上层元素。某个元素的所有上层节点的position属性都是static，则Element.offsetParent属性指向<body>元素
+
+Element.offsetLeft返回当前元素左上角相对于Element.offsetParent节点的水平位移，
+Element.offsetTop返回垂直位移，单位为像素。通常，这两个值是指相对于父节点的位移。
+算出元素左上角相对于整张网页的坐标
+function getElementPosition(e) {
+  var x = 0;
+  var y = 0;
+  while (e !== null)  {
+    x += e.offsetLeft;
+    y += e.offsetTop;
+    e = e.offsetParent;
+  }
+  return {x: x, y: y};
+}
+
+9. 事件
+EventTarget.addEventListener()：参数type, listener[, useCapture]
+EventTarget.removeEventListener(): 与上面一致
+EventTarget.dispatchEvent(): 参数Event实例
+
+Event
+Event.currentTarget：事件当前正在通过的节点正在执行的监听函数所在的那个节点。随着事件的传播，这个属性的值会变。
+Event.target：事件的原始触发节点，属性不会随着事件的传播而改变。
+Event.preventDefault()：取消浏览器对当前事件的默认行为，不会阻止事件的传播
+Event.stopPropagation()：阻止事件在 DOM 中继续传播，防止再触发定义在别的节点上的监听函数，但是不包括在当前节点上其他的事件监听函数
+Event.stopImmediatePropagation()：阻止同一个事件的其他监听函数被调用，不管监听函数定义在当前节点还是其他节点
+
+鼠标事件
+mousemove：当鼠标在一个节点内部移动时触发。当鼠标持续移动时，该事件会连续触发。为了避免性能问题，建议对该事件的监听函数做一些限定，比如限定一段时间内只能运行一次。
+mouseenter：鼠标进入一个节点时触发，进入子节点不会触发这个事件（详见后文）。
+mouseover：鼠标进入一个节点时触发，进入子节点会再一次触发这个事件（详见后文）。
+mouseout：鼠标离开一个节点时触发，离开父节点也会触发这个事件（详见后文）。
+mouseleave：鼠标离开一个节点时触发，离开父节点不会触发这个事件（详见后文）。
+
+mouseover事件和mouseenter事件，都是鼠标进入一个节点时触发。两者的区别是，mouseenter事件只触发一次，而只要鼠标在节点内部移动，mouseover事件会在子节点上触发多次。
+mouseout事件和mouseleave事件，都是鼠标离开一个节点时触发。两者的区别是，在父元素内部离开一个子元素时，mouseleave事件不会触发，而mouseout事件会触发。
+
+键盘事件
+keydown、keypress、keyup
+
 
 
 
