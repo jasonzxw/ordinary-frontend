@@ -107,6 +107,20 @@ RegExp.prototype.exec(): 正则对象匹配成功，返回一个数组，成员�
 3. 对象的键名必须放在双引号里面。
 4. 数组或对象最后一个成员的后面，不能加逗号
 
+<6> Date
+Date.now(): 返回当前时间距离时间零点（1970年1月1日 00:00:00 UTC）的毫秒数
+Date.parse(): 用来解析日期字符串，返回该时间距离时间零点（1970年1月1日 00:00:00）的毫秒数
+Date.UTC():接受年、月、日等变量作为参数，返回时间距离时间零点（1970年1月1日 00:00:00 UTC）的毫秒数
+Date.prototype.valueOf() 和 getTime 效果一样，返回距离时间零点的毫秒数
+toUTCString(): 对应的 UTC 时间，也就是比北京时间晚8个小时 Sat, 16 Apr 2022 13:31:17 GMT
+toISOString()、toJSON() : 返回UTC 时区的时间 2012-12-31T16:00:00.000Z
+
+Date 实例转为表示本地时间的字符串
+toLocaleString():完整的本地时间
+toLocaleDateString()：本地日期(不含小时、分和秒)
+toLocaleTimeString()：本地时间(不含年月日)
+
+除了日期默认值从1开始，其他都是从0开始
 6. 面向对象编程
 
 (1) new原理
@@ -190,6 +204,9 @@ HTML 文档解析完成，document.readyState属性变成interactive。
 (4)getElementById() 返回匹配指定id属性的元素节点
 
 Element:文档元素组成的每个节点
+
+Element.title属性用来读写当前元素的 HTML 属性title。该属性通常用来指定鼠标悬浮时弹出的文字提示框。
+
 className值是一个字符串，每个class之间用空格分割。classList属性返回一个类似数组的对象，当前元素节点的每个class就是这个对象的一个成员。
 
 innerHTML:该元素包含的所有 HTML 代码, outerHTML当前元素节点的所有 HTML 代码，包括该元素本身和所有子元素。
