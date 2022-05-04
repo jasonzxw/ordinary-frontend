@@ -170,9 +170,17 @@ Text：标签之间或标签包含的文本
 Comment：注释
 DocumentFragment：文档的片段
 
+
 Node
 Node.prototype.appendChild():
 一个节点对象作为参数，将其作为最后一个子节点，插入当前节点 ; 参数节点是 DOM 已经存在的节点，appendChild()方法会将其从原来的位置，移动到新位置
+
+Node.prototype.nodeValue
+nodeValue属性返回一个字符串，表示当前节点本身的文本值，该属性可读写。只有文本节点（text）、注释节点（comment）和属性节点（attr）有文本值
+
+Node.prototype.textContent
+textContent属性返回当前节点和它的所有后代节点的文本内容。
+
 
 节点集合
 NodeList(类数组对象)：包含各种类型的节点  HTMLCollection：只能包含 HTML 元素节点
