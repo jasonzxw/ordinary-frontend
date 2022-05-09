@@ -94,6 +94,68 @@ transition
 @keyframes 指定一个 CSS 样式和动画将逐步从目前的样式更改为新的样式
 animation: name(动画名称) duration(时间) timing-function(如何完成一个周期) delay iteration-count(播放次数) direction(是否应该轮流反向播放动画) fill-mode play-state;
 
+区别：
+animation不需要触发事件，transition需要触发事件
+transition只有一组关键帧（两个：开始-结束），动画可以设置多个
 
+11. flex
+Flex 布局的元素，称为 Flex 容器
+容器的属性有：
+flex-direction属性决定主轴的方向（即项目的排列方向）。 强调排列方向
+flex-direction: row | row-reverse | column | column-reverse
+
+flex-wrap属性定义，如果一条轴线排不下，如何换行
+flex-wrap: nowrap | wrap | wrap-reverse;
+
+flex-flow属性是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。
+
+justify-content属性定义了项目在主轴上的对齐方式。
+justify-content: flex-start | flex-end | center | space-between | space-around;
+
+align-items属性定义项目在交叉轴上如何对齐。
+align-items: flex-start | flex-end | center | baseline | stretch;
+
+align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。
+align-content: flex-start | flex-end | center | space-between | space-around | stretch;
+
+容器成员，称为 Flex 项目（flex item），简称"项目"。
+项目的属性有：
+
+order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。
+
+flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。
+
+flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。
+
+flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间(main size)默认值为auto，即项目的本来大小
+
+flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto
+flex:auto = flex:1 1 auto   flex:none= flex:0 0 auto
+
+align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。
+align-self: auto | flex-start | flex-end | center | baseline | stretch;
+
+12. grid布局
 
 居中的实现、多栏自适应的实现、tooltip
+
+
+css selector dictionary
+
+background-origin 规定了指定背景图片background-image 属性的原点位置的背景相对区域
+border-box | padding-box | content-box xxx区域，例如content内容区域填充
+
+background-repeat CSS 属性定义背景图像的重复方式。背景图像可以沿着水平轴，垂直轴，两个轴重复，或者根本不重复
+
+边界border和轮廓outline很相似。然而轮廓在以下方面与边界不同
+轮廓不占据空间，他们在元素内容之外绘制
+根据规范，轮廓不必为矩形，尽管通常是矩形
+
+border-radius 允许你设置元素的外边框圆角。当使用一个半径时确定一个圆形，当使用两个半径时确定一个椭圆。这个(椭)圆与边框的交集形成圆角效果
+
+clip-path:使用裁剪方式创建元素的可显示区域。区域内的部分显示，区域外的隐藏。
+inset()定义矩形 circle()定义一个圆形（使用一个半径和一个圆心位置）
+ellipse()定义一个椭圆（使用两个半径和一个圆心位置）。 polygon() 定义一个多边形（使用一个 SVG 填充规则和一组顶点）。 path() 定义一个任意形状（使用一个可选的 SVG 填充规则和一个 SVG 路径定义）
+
+cursor CSS 属性设置光标的类型（如果有），在鼠标指针悬停在元素上时显示相应样式。
+
