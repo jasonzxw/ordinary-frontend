@@ -135,6 +135,11 @@ flex:auto = flex:1 1 auto   flex:none= flex:0 0 auto
 align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。
 align-self: auto | flex-start | flex-end | center | baseline | stretch;
 
+当一个元素同时被设置了 flex-basis (除值为 auto 外) 和 width (或者在 flex-direction: column 情况下设置了height) , flex-basis 具有更高的优先级.
+
+flex-grow 项在 flex 容器中分配剩余空间的相对比例。 主尺寸是项的宽度或高度，这取决于flex-direction值。
+剩余空间是 flex 容器的大小减去所有 flex 项的大小加起来的大小。如果所有的兄弟项目都有相同的 flex-grow 系数，那么所有的项目将剩余空间按相同比例分配，否则将根据不同的 flex-grow 定义的比例进行分配
+
 12. grid布局
 
 居中的实现、多栏自适应的实现、tooltip
@@ -158,4 +163,41 @@ inset()定义矩形 circle()定义一个圆形（使用一个半径和一个圆�
 ellipse()定义一个椭圆（使用两个半径和一个圆心位置）。 polygon() 定义一个多边形（使用一个 SVG 填充规则和一组顶点）。 path() 定义一个任意形状（使用一个可选的 SVG 填充规则和一个 SVG 路径定义）
 
 cursor CSS 属性设置光标的类型（如果有），在鼠标指针悬停在元素上时显示相应样式。
+
+:first @page CSS 伪类选择器 描述的是：打印文档的时候，第一页的样式。
+
+:first-child CSS pseudo-class 表示在一组兄弟元素中的第一个元素。
+:last-child CSS 伪类 代表父元素的最后一个子元素。
+
+
+font-size属性的em和ex单位值相对于父元素的字体大小,流行的技巧是设置body元素的字体大小为62.5% (即默认大小16px的62.5%)，等于10px。现在你可以通过计算基准大小10px的倍数
+
+left属性定义了定位元素的左外边距边界与其包含块左边界之间的偏移，非定位元素设置此属性无效。
+当position设置为absolute或fixed时，left属性指定了定位元素左外边距边界与其包含块左边界之间的偏移。
+当position设置为relative时，left属性指定了元素的左边界离开其正常位置的偏移。
+当position设置为sticky时，如果元素在viewport里面，left属性的效果和position为relative等同；如果元素在viewport外面，left属性的效果和position为fixed等同。
+当position设置为static时，left属性无效
+
+min-width 属性为给定元素设置最小宽度。它可以阻止 width 属性的应用值小于 min-width 的值。min-width 的值会同时覆盖 max-width 和 width
+
+:nth-child(an+b) 这个 CSS 伪类首先找到所有当前元素的兄弟元素，然后按照位置先后顺序从1开始排序，选择的结果为CSS伪类:nth-child括号中表达式（an+b）匹配到的元素集合（n=0，1，2，3...）
+
+:nth-last-child() 这CSS伪类从兄弟节点中从后往前匹配处于某些位置的元素作为一个模式，从后往前匹配元素
+
+opacity: 透明度 0完全透明 1 完全透明
+
+CSS的rotate()函数定义了一种将元素围绕一个定点（由transform-origin属性指定）旋转而不变形的转换。指定的角度定义了旋转的量度。若角度为正，则顺时针方向旋转，否则逆时针方向旋转。旋转180°也被称为点反射
+元素旋转的固定点 - 如上所述 - 也称为变换原点。这默认为元素的中心，但你可以使用transform-origin属性设置自己的自定义变换原点
+
+scaleX(sx) 是 scale(sx, 1) 或 scale3d(sx, 1, 1) 的一个速记/缩写。
+
+text-align CSS属性定义行内内容（例如文字）如何相对它的块父元素对齐。text-align 并不控制块元素自己的对齐，只控制它的行内内容的对齐
+
+transform-origin CSS属性让你更改一个元素变形的原点。
+
+transition CSS 属性是 transition-property，transition-duration，transition-timing-function 和 transition-delay的一个简写属性
+
+user-select 控制用户能否选中文本
+
+visibility 显示或隐藏元素而不更改文档的布局。该属性还可以隐藏<table>中的行或列
 
