@@ -47,9 +47,33 @@ Map: Object提供了"字符串-值"的对应(key只能为字符串) , Map提供�
 Map键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键
 WeakMap只接受对象作为键名（null除外），不接受其他类型的值作为键名。
 
-9. 
+9. promise
+promise简单的说是一个容器，里面包含着未来会结束的事件(通常是异步操作的结果)。
+有两个特点：状态不受外界影响以及一旦状态改变，就不会再变
+
+执行顺序：Promise 新建后就会立即执行。除了resolve()、reject()异步操作
+立即 resolved或rejected 的 Promise 是在本轮事件循环的末尾执行，总是晚于本轮循环的同步任务
+
+Promise.prototype.then()
+then方法返回的是一个新的Promise实例（注意，不是原来那个Promise实例）
+
+Promise.prototype.catch()
+reject()方法的作用，等同于抛出错误
+Promise 对象的错误具有“冒泡”性质，会一直向后传递，直到被捕获为止。也就是说，错误总是会被下一个catch语句捕获。promise会吃掉错误，不被外面代码接收到
+
+Promise.prototype.finally()
+finally方法里面的操作，应该是与状态无关的，不依赖于 Promise 的执行结果。
+Promise.prototype.finally = function (callback) {
+  let P = this.constructor;
+  return this.then(
+    value  => P.resolve(callback()).then(() => value),
+    reason => P.resolve(callback()).then(() => { throw reason })
+  );
+};
+
 Promise.all()方法用于将多个 Promise 实例，包装成一个新的 Promise 实例
 所有的promise都变成fullfilled, 实例会变成fullfilled;有一个rejected,会变成rejected
+注意. 作为参数的 Promise 实例，自己定义了catch方法，那么它一旦被rejected，并不会触发Promise.all()的catch方法 ; 没有自己的catch方法，就会调用Promise.all()的catch方法
 
 Promise.race()方法同样是将多个 Promise 实例，包装成一个新的 Promise 实例
 有一个实例状态发生改变，状态就就改变，传递给回调函数
