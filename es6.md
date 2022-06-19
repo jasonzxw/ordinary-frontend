@@ -10,11 +10,23 @@ number、string、Boolean、object、symbol、undefined、null、bigint
 函数参数的默认值最好是尾参数、要不然是无法看出来省略的
 函数的length在有默认值的情况下会失真、不再计入参数个数
 rest参数： 形如function(...rest){} rest是一个数组、将多于参数放入数组中
-箭头函数：
+
+箭头函数：静态绑定this ,绑定在上一层非this的普通函数，没有普通函数则是绑定在全局
 没有自己的this对象，通常绑定在函数定义时普通函数的this => 没有this,不能用作构造函数
 不可以当作构造函数，无法使用new命令
 不可以使用arguments对象，在函数体内不存在，但是可以使用rest
 不可以使用yield, 不能用作generator函数
+
+不适用箭头函数的情况
+(1) 定义对象的方法，且该方法内部包括this
+const cat = {
+  lives: 9,
+  jumps: () => {
+    this.lives--;
+  }
+}
+对象不构成单独的作用域，导致jumps箭头函数定义时的作用域就是全局作用域
+(2)需要动态this的时候，也不应使用箭头函数
 
 5. 数组扩展运算符 ...
 原理是内部存在Iterator 接口遍历器
@@ -90,6 +102,17 @@ Iterator 的作用有三个：一是为各种数据结构，提供一个统一�
 Array Map Set String TypedArray 函数的 arguments 对象 NodeList 对象、Generator 对象
 
 遍历器的本质上：创建指针对象，每次调用next()方法，指向下一个成员
+遍历器接口（Iterable）、指针对象（Iterator）和next方法返回值的规格可以描述如下
+interface Iterable {
+  [Symbol.iterator]() : Iterator,
+}
+interface Iterator {
+  next(value?: any) : IterationResult,
+}
+interface IterationResult {
+  value: any,
+  done: boolean,
+}
 
 11. Generator函数:本质是一个状态机，封装多个内部状态；执行函数会生成一个遍历器对象
 遍历器对象的next方法的运行逻辑如下。
